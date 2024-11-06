@@ -9,12 +9,15 @@ let idCounter = 1;
 // POST: Criar Produtos
 app.post('/CriarProdutos', (req, res) => {
     const { nome, preco, quantidade } = req.body;
-    if (nome===null || preco===null || quantidade===null) {
+    if (!produtos.nome || !produtos.preco || !produtos.quantidade) {
+        const novoProduto = { id: idCounter++, nome, preco, quantidade };
+        produtos.push(novoProduto);
+        res.status(201).json(novoProduto);
+        
+    }else{
         return res.status(400).json({ message: 'Os campos nome, preco e quantidade são obrigatórios.' });
     }
-    const novoProduto = { id: idCounter++, nome, preco, quantidade };
-    produtos.push(novoProduto);
-    res.status(201).json(novoProduto);
+
 });
 
 // GET: Mostrar Produtos
